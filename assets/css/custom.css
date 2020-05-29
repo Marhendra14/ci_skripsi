@@ -1,0 +1,18 @@
+.th-sticky-action {
+	position: sticky !important;
+	right: 0px !important;
+	background-color: #f2f4f8 !important;
+	color: #000;
+}
+
+.th-sticky-status {
+	position: sticky !important;
+	right: 156px !important;
+	background-color: #f2f4f8 !important;
+	color: #000;
+}
+
+.toasts-top-left {
+    left: 50% !important;
+    top: 15px !important;
+}
