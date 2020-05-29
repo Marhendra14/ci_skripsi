@@ -3,23 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Vendor extends CI_Controller {
 
-	var $cname = "Vendor";
+	var $cname = "Pengeluaran/Vendor";
 
-	public function __construct()
+	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Vendor_model']);
+		$this->load->model(['Pengeluaran/Vendor_model']);
 	}
 
 	public function index()
 	{
 		$data = [
 			'title' => "Vendor",
-			'cname' => $this->cname,
-			'pages' => "vendor/index",
+			'cname'=> $this->cname,
+			'pengeluaran' => "vendor/index",
 			'count_vendor' => $this->Vendor_model->count_vendor(),
 			'data' => array(),
 		];
+		$this->load->view('pages/pengeluaran/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}
@@ -45,15 +46,15 @@ class Vendor extends CI_Controller {
 		$this->form_validation->set_rules('no_telephone_vendor','No Telephone Vendor','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
-
+		
 		if ($this->form_validation->run() == TRUE) {
 			$id = $this->input->post('id_vendor');
-			
+
 			$data = [
 				'nama_vendor' => $this->input->post('nama_vendor'),
 				'alamat_vendor' => $this->input->post('alamat_vendor'),
-				'no_telephone_vendor' => $this->input->post('no_telephone_vendor'),
-			];			
+				'no_telephone_vendor' => $this->input->post('no_telephone_vendor')
+			];
 
 			if ($id == "") {
 				$insert = $this->Vendor_model->insert($data);
@@ -71,7 +72,6 @@ class Vendor extends CI_Controller {
 					];
 				}   
 			}else {
-
 				$update = $this->Vendor_model->update($id, $data);
 				if($update){
 					$ret = [
@@ -97,6 +97,7 @@ class Vendor extends CI_Controller {
 			];
 		}
 		echo json_encode($ret);
+
 	}
 
 	public function delete_vendor()
@@ -127,6 +128,9 @@ class Vendor extends CI_Controller {
 			];
 		}
 		echo json_encode($ret);
+
 	}
 
 }
+
+/* End of file Jabatan.php */

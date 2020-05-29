@@ -64,7 +64,32 @@ class Isi_logistik_model extends CI_Model {
 		return $jumlah;
 
 	}
-}
 
-/* End of file Admins_model.php */
-/* Location: ./application/models/Admins_model.php */
+	public function get_last_id()
+	{
+		return $this->db->insert_id();
+	}
+
+	public function sum_data()
+	{
+		$this->db->select('(select SUM(data_yang_akan_diramal.data_ke) as data_ke, 
+			SUM(data_yang_akan_diramal.data_produksi_bulan_lalu) as data_produksi_bulan_lalu, 
+			SUM(data_yang_akan_diramal.perkalian_data) as perkalian_data, 
+			SUM(data_yang_akan_diramal.data_ke_kuadrat) as data_ke_kuadrat)');
+		$this->db->from('data_yang_akan_diramal');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function count_data()
+	{
+		return $this->db->count_all_results('data_yang_akan_diramal');
+	}
+
+	public function update_data_yang_akan_diramal($id, $hasil_peramalan)
+	{
+		$this->db->set('hasil_peramalan', $hasil_peramalan);
+		$this->db->where('data_ke', $id);
+		return $this->db->update('data_yang_akan_diramal');
+	}
+}

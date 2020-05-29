@@ -13,14 +13,14 @@ class Login extends CI_Controller {
 	{
 		$this->load->model('Login_model');
 		$data = [
-			'title' => "Dashboard",
+			'title' => "Login",
 			'data' => array(),
 		];
 		$data['data']['select_departemen'] = $this->Login_model->get_data();
-		$this->load->view('superadmin/layouts/login',$data);
+		$this->load->view('layouts/login',$data);
 
 		if ($this->session->userdata('isLogin') == TRUE) {
-			redirect('dashboard','refresh');
+			redirect('Superadmin/dashboard','refresh');
 		}
 	}
 
@@ -34,7 +34,7 @@ class Login extends CI_Controller {
 
 		if($this->form_validation->run() == false)
 		{
-			$this->load->view('superadmin/layouts/login',$data);
+			$this->load->view('layouts/login',$data);
 		}
 		else
 		{
@@ -56,51 +56,23 @@ class Login extends CI_Controller {
 				$this->session->set_userdata($data_session);
 				if($id_departemen==1)
 				{
-					redirect('dashboard','refresh');
+					redirect('Superadmin/dashboard','refresh');
 				}
 				elseif ($id_departemen==2) 
 				{
-					echo("Hello world!<br>");
+					redirect('Area3/dashboard','refresh');
 				}
 				elseif ($id_departemen==3) 
 				{
-					echo("Hello world!<br>");
+					redirect('Logistik/dashboard','refresh');
 				}
 				elseif ($id_departemen==4) 
 				{
-					redirect('dashboard2','refresh');
+					redirect('Pengeluaran/dashboard','refresh');
 				}
 				elseif ($id_departemen==5) 
 				{
 					redirect('Logistik/isi_logistik','refresh');
-				}
-				elseif ($id_departemen==6) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==7) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==8) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==9) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==10) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==11) 
-				{
-					echo("Hello world!<br>");
-				}
-				elseif ($id_departemen==12) 
-				{
-					echo("Hello world!<br>");
 				}
 			}
 			else{

@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jabatan extends CI_Controller {
 
-	var $cname = "SuperAdmin/Jabatan";
+	var $cname = "Superadmin/Jabatan";
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Jabatan_model']);
+		$this->load->model(['Superadmin/Jabatan_model']);
 	}
 
 	public function index()
@@ -16,11 +16,11 @@ class Jabatan extends CI_Controller {
 		$data = [
 			'title' => "Jabatan",
 			'cname'=> $this->cname,
-			'superadmin' => "pages/superadmin/jabatan/index",
+			'superadmin' => "jabatan/index",
 			'count_jabatan_all' => $this->Jabatan_model->count_jabatan_all(),
 			'data' => array(),
 		];
-		$this->load->view('superadmin/layouts/dashboard', $data);
+		$this->load->view('pages/superadmin/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}

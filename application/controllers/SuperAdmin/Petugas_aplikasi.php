@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Petugas_aplikasi extends CI_Controller {
 
-	var $cname = "SuperAdmin/Petugas_aplikasi";
+	var $cname = "Superadmin/Petugas_aplikasi";
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','SuperAdmin/Departemen_model','SuperAdmin/Jabatan_model']);
+		$this->load->model(['Superadmin/Petugas_aplikasi_model','Superadmin/Departemen_model','Superadmin/Jabatan_model']);
 	}
 
 	public function index()
@@ -16,13 +16,13 @@ class Petugas_aplikasi extends CI_Controller {
 		$data = [
 			'title' => "Petugas Aplikasi",
 			'cname' => $this->cname,
-			'superadmin' => "pages/superadmin/petugas_aplikasi/index",
+			'superadmin' => "petugas_aplikasi/index",
 			'count_petugas_aplikasi_all' => $this->Petugas_aplikasi_model->count_petugas_aplikasi_all(),
 			'data' => array(),
 		];
 		$data['data']['select_departemen'] = $this->Departemen_model->get_data();
 		$data['data']['select_jabatan'] = $this->Jabatan_model->get_data();
-		$this->load->view('superadmin/layouts/dashboard', $data);
+		$this->load->view('pages/superadmin/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}

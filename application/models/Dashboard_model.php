@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard_model extends CI_Model {
 
-	var $table = "petugas_aplikasi,departemen,jabatan";
+	var $table = "petugas_aplikasi,departemen,jabatan,isi_logistik,produk,kantong,pengeluaran,vendor";
 
 	// public function get_bar_pengaduan($id_kategori,$waktu_lapor)
 	// {

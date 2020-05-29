@@ -8,7 +8,7 @@ class Departemen extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Departemen_model']);
+		$this->load->model(['Superadmin/Departemen_model']);
 
 	}
 
@@ -17,11 +17,11 @@ class Departemen extends CI_Controller {
 		$data = [
 			'title' => "Departemen",
 			'cname' => $this->cname,
-			'superadmin' => "pages/superadmin/departemen/index",
+			'superadmin' => "departemen/index",
 			'count_departemen_all' => $this->Departemen_model->count_departemen_all(),
 			'data' => array(),
 		];
-		$this->load->view('superadmin/layouts/dashboard',$data);
+		$this->load->view('pages/superadmin/layouts/dashboard',$data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}

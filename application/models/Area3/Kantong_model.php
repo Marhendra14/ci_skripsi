@@ -10,7 +10,6 @@ class Kantong_model extends CI_Model {
 		$this->db->select('kantong.*, status.status');
 		$this->db->from($this->table);
 		$this->db->join('status', 'status.id_status = kantong.id_status', 'left');
-		//$this->db->where('is_active !=', 2);
 		$this->db->order_by('id_kantong','desc');
 		$query = $this->db->get();
 		return $query->result();
@@ -55,6 +54,16 @@ class Kantong_model extends CI_Model {
 		return $delete;
 	}
 
+	public function count_kantong()
+	{
+		$jumlah = 0;
+		$query = $this->db->get($this->table)->result();
+		foreach ($query as $key => $value) {	
+			$jumlah++;
+		}	
+		return $jumlah;
+
+	}
 }
 
 /* End of file Admins_model.php */

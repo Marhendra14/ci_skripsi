@@ -53,6 +53,17 @@ class Produk_model extends CI_Model {
 		return $delete;
 	}
 
+	public function count_produk()
+	{
+		$jumlah = 0;
+		$query = $this->db->get($this->table)->result();
+		foreach ($query as $key => $value) {	
+			$jumlah++;
+		}	
+		return $jumlah;
+
+	}
+
 }
 
 /* End of file Admins_model.php */

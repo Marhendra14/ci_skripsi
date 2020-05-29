@@ -3,13 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Vendor_model extends CI_Model {
 
-	var $table = 'vendor';
+	var $table = "vendor";
 
 	public function get_data()
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
-		$this->db->order_by('id_vendor','desc');
+		$this->db->order_by('id_vendor','asc');
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -35,13 +35,25 @@ class Vendor_model extends CI_Model {
 		$update = $this->db->update($this->table,$data);
 		return $update;
 	}
-
+	
 	public function delete($id)
 	{
 		$this->db->where('id_vendor',$id);
-		//$data = array('status' => 2);
-		$delete = $this->db->update($this->table, $data);
+		$delete = $this->db->delete($this->table);
 		return $delete;
+	}
+
+	public function count_vendor()
+	{
+		$jumlah = 0;
+		$query = $this->db->get($this->table)->result();
+		foreach ($query as $key => $value) {	
+			$jumlah++;
+		}	
+		return $jumlah;
 
 	}
 }
+
+/* End of file Golongan_model.php */
+/* Location: ./application/models/Golongan_model.php */
