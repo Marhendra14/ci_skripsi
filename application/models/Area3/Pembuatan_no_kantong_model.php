@@ -7,8 +7,9 @@ class Pembuatan_no_kantong_model extends CI_Model {
 
 	public function get_data()
 	{
-		$this->db->select('kantong.*, status.status');
+		$this->db->select('petugas_aplikasi.nama_karyawan, kantong.*, status.status');
 		$this->db->from($this->table);
+		$this->db->join('petugas_aplikasi', 'petugas_aplikasi.id_petugas = kantong.id_petugas', 'left');
 		$this->db->join('status', 'status.id_status = kantong.id_status', 'left');
 		$this->db->order_by('id_kantong','desc');
 		$query = $this->db->get();
@@ -62,6 +63,17 @@ class Pembuatan_no_kantong_model extends CI_Model {
 		}	
 		return $jumlah;
 
+	}
+
+	public function get_data_belum()
+	{
+		$this->db->select('petugas_aplikasi.nama_karyawan, kantong.*, status.status');
+		$this->db->from($this->table);
+		$this->db->join('petugas_aplikasi', 'petugas_aplikasi.id_petugas = kantong.id_petugas', 'left');
+		$this->db->join('status', 'status.id_status = kantong.id_status', 'left');
+		$this->db->where('kantong.id_status =',1);
+		$query = $this->db->get();
+		return $query->result();
 	}
 }
 

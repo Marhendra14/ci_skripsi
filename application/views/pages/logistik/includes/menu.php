@@ -26,6 +26,42 @@
           </a>
         </li>
       </ul>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="<?php echo base_url('logistik/isi_logistik') ?>" class="nav-link">
+            <p>
+              X Grafik Perbandingan
+            </p>
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="<?php echo base_url('logistik/history_cup') ?>" class="nav-link">
+            <p>
+              History Cup
+            </p>
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="<?php echo base_url('logistik/history_produk') ?>" class="nav-link">
+            <p>
+              History Produk
+            </p>
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="<?php echo base_url('logistik/history_produk') ?>" class="nav-link">
+            <p>
+              Laporan Logistik
+            </p>
+          </a>
+        </li>
+      </ul>
     </li>
   </ul>
   <script>

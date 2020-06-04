@@ -2,21 +2,31 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><?php echo $title ?></h3>
+
+        </div>
         <div class="card-body">
           <?php echo form_open($cname.'/insert',['id' => 'form-departemen']); ?>
           <input type="hidden" class="form-control" name="id_departemen" placeholder="">
+          <div class="row">
+          <div class="col-md-6">
           <div class="form-group">
             <label>Nama Departemen</label>
             <input type="text" class="form-control" name="nama_departemen" placeholder="">
           </div>
+        </div>
+      </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <button type="reset" class="btn btn-secondary" onclick="form_reset();">Reset</button>
           <?php echo form_close(); ?>
         </div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="table-responsive">
+    </div>
+     <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
             <table id="table-data" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" data-url="<?php echo base_url($cname.'/get_data') ?>">
               <thead>
                 <tr>
@@ -28,7 +38,6 @@
             </table>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </div>

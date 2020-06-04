@@ -21,7 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				<?php echo $this->session->flashdata('gagal'); ?>
 				<?php echo form_open('login/cekLogin') ?>
 						<div class="input-group mb-3">
-							<input type="text" name="nik" class="form-control" placeholder="nik">
+							<input type="number" name="nik" class="form-control" placeholder="nik">
 							<div class="input-group-append">
 								<div class="input-group-text ">
 									<span class="fas fa-envelope"></span>

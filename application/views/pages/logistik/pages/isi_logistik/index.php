@@ -4,7 +4,6 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"><?php echo $title ?></h3>
-
           </div>
           <div class="card-body">
             <?php echo form_open($cname.'/insert',['id'=>'form-isi_logistik']); ?>
@@ -22,11 +21,11 @@
                 </div>
                 <div class="form-group">
                   <label>Bulan</label>
-                  <input type="text" class="form-control" name="bulan" placeholder="Bulan">
+                  <input type="number" class="form-control" name="bulan" placeholder="Bulan">
                 </div>
                 <div class="form-group">
                   <label>Tahun</label>
-                  <input type="text" class="form-control" name="tahun" placeholder="Tahun">
+                  <input type="number" class="form-control" name="tahun" placeholder="Tahun">
                 </div>
                 <div class="form-group">
                   <label>Data Produksi Bulan Lalu</label>

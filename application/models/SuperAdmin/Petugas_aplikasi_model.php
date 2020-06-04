@@ -17,6 +17,36 @@ class Petugas_aplikasi_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function get_data_logistik()
+	{
+		$this->db->select('petugas_aplikasi.*');
+		$this->db->from($this->table);
+		$this->db->where('id_departemen =', 2);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_data_area3()
+	{
+		$this->db->select('petugas_aplikasi.*');
+		$this->db->from($this->table);
+		$this->db->where('id_departemen =', 3);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+
+	public function get_data_pengeluaran()
+	{
+		$this->db->select('petugas_aplikasi.*');
+		$this->db->from($this->table);
+		$this->db->where('id_departemen =', 4);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	
+
 	public function get_data_by_id($id)
 	{
 		$this->db->select('*');

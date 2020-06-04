@@ -8,18 +8,19 @@ class Pembuatan_no_produk extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Area3/Pembuatan_no_produk_model','Status_model']);
+		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Status_model','Logistik/History_produk_model']);
 	}
 
 	public function index()
 	{
 		$data = [
-			'title' => "Produk",
+			'title' => "Pembuatan Nomor Produk",
 			'cname' => $this->cname,
 			'area3' => "pembuatan_no_produk/index",
 			'count_pembuatan_no_produk' => $this->Pembuatan_no_produk_model->count_pembuatan_no_produk(),
 			'data' => array(),
 		];
+		$data['data']['select_petugas'] = $this->Petugas_aplikasi_model->get_data_area3();
 		$data['data']['select_status'] = $this->Status_model->get_data();
 		$this->load->view('pages/area3/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
@@ -42,9 +43,9 @@ class Pembuatan_no_produk extends CI_Controller {
 
 	public function insert()
 	{
+		$this->form_validation->set_rules('id_petugas','Nama Karyawan','trim|required');
 		$this->form_validation->set_rules('no_batch','No Batch','trim|required');
 		$this->form_validation->set_rules('no_produk','No Produk','trim|required');
-		$this->form_validation->set_rules('tanggal_pembuatan','Tanggal Pembuatan','trim|required');
 		$this->form_validation->set_rules('id_status','Status Produk','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
@@ -53,14 +54,19 @@ class Pembuatan_no_produk extends CI_Controller {
 			$id = $this->input->post('id_produk');
 			
 			$data = [
+				'id_petugas' => $this->input->post('id_petugas'),
 				'no_batch' => $this->input->post('no_batch'),
 				'no_produk' => $this->input->post('no_produk'),
-				'tanggal_pembuatan' => $this->input->post('tanggal_pembuatan'),
 				'id_status' => $this->input->post('id_status'),
 			];			
-
+			$data_history = [				
+				'id_produk' => $this->input->post('no_produk'),
+				'no_batch' => $this->input->post('no_batch'),
+				'waktu_pembuatan_no' => date("Y-m-d H:i:s")
+			];
 			if ($id == "") {
 				$insert = $this->Pembuatan_no_produk_model->insert($data);
+				$insert2 = $this->History_produk_model->insert($data_history);
 				if($insert){
 					$ret = [
 						'title' => "Insert",

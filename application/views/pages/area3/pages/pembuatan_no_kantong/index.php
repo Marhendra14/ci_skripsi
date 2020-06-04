@@ -1,58 +1,72 @@
 <div class="container-fluid">
-		<div class="row">
-				<div class="col-md-12">
-						<div class="card">
-								<div class="card-body">
-										<?php echo form_open($cname.'/insert',['id' => 'form-pembuatan_no_kantong']); ?>
-										<input type="hidden" class="form-control" name="id_kantong" placeholder="">
-										<div class="form-group">
-												<label>No Batch</label>
-												<input type="text" class="form-control" name="no_batch" placeholder="">
-										</div>
-										<div class="form-group">
-												<label>No Kantong</label>
-												<input type="text" class="form-control" name="no_kantong" placeholder="">
-										</div>
-										<div class="form-group">
-												<label>Tanggal Pembuatan</label>
-												<input type="date" class="form-control" name="tanggal_pembuatan" placeholder="">
-										</div>
-										<div class="form-group">
-										<label>Status Produk</label>
-																		<select name="id_status" id="" class="form-control">
-																				<option value="" selected disabled>Pilih</option>
-																				<?php foreach ($data['select_status'] as $key => $value): ?>
-																						<option value="<?php echo $value->id_status ?>"><?php echo $value->status ?></option>
-																				<?php endforeach ?>
-																		</select>
-																</div>
-										<button type="submit" class="btn btn-primary">Submit</button>
-										<button type="reset" class="btn btn-secondary" onclick="form_reset();">Reset</button>
-										<?php echo form_close(); ?>
-								</div>
-						</div>
-						<div class="card">
-								<div class="card-body">
-										<div class="table-responsive">
-												<table id="table-data" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" data-url="<?php echo base_url($cname.'/get_data') ?>">
-														<thead>
-																<tr>
-																		<th></th>
-																		<th></th>
-																		<th></th>
-																		<th></th>
-																		<th></th>
-																		<th class="th-sticky-action">-</th>
-																</tr>
-														</thead>
-												</table>
-										</div>
-								</div>
-						</div>
-				</div>
-		</div>
-</div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                <h3 class="card-title"><?php echo $title ?></h3>
+                </div>
+                <div class="card-body">
+                    <?php echo form_open($cname.'/insert',['id' => 'form-pembuatan_no_kantong']); ?>
+                    <input type="hidden" class="form-control" name="id_kantng" placeholder="">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Nama Petugas</label>
+                              <select name="id_petugas" id="" class="form-control">
+                                <option value="" selected disabled>Pilih</option>
+                                <?php foreach ($data['select_petugas'] as $key => $value): ?>
+                                  <option value="<?php echo $value->id_petugas ?>"><?php echo $value->nama_karyawan ?></option>
+                                <?php endforeach ?>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label>No Batch</label>
+                                <input id="no_batch" type="text" class="form-control" name="no_batch">
+                            </div>
+                            <div class="form-group">
+                                <label>No Kantong</label>
+                                <input type="number" class="form-control" name="no_kantong" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label>Status Kantong</label>
+                                <select name="id_status" id="" class="form-control">
+                                <option value="" selected disabled>Pilih</option>
+                                <?php foreach ($data['select_status'] as $key => $value): ?>
+                                <option value="<?php echo $value->id_status ?>"><?php echo $value->status ?></option>
+                                <?php endforeach ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary" onclick="form_reset();">Reset</button>
+                                <?php echo form_close(); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="table-data" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" data-url="<?php echo base_url($cname.'/get_data') ?>">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th class="th-sticky-action">-</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
 <script>
 
 		var url_fill_form = '<?php echo base_url($cname.'/get_data_by_id') ?>';
@@ -80,6 +94,10 @@
 										return meta.row + meta.settings._iDisplayStart + 1;
 								}
 						},
+			            { 
+				                "title" : "Nama Karyawan",
+				                "data": "nama_karyawan" 
+			            },
 						{ 
 								"title" : "No Batch",
 								"data": "no_batch" 
@@ -149,6 +167,7 @@
 								let form = $('#form-pembuatan_no_kantong');
 								form_reset();
 								form.find('[name="id_kantong"]').val(json.id_kantong);
+								form.find('[name="nama_karyawan"]').val(json.nama_karyawan);
 								form.find('[name="no_batch"]').val(json.no_batch);
 								form.find('[name="no_kantong"]').val(json.no_kantong);
 								form.find('[name="tanggal_pembuatan"]').val(json.tanggal_pembuatan);

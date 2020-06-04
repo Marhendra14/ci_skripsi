@@ -72,10 +72,10 @@ class Isi_logistik_model extends CI_Model {
 
 	public function sum_data()
 	{
-		$this->db->select('(select SUM(data_yang_akan_diramal.data_ke) as data_ke, 
+		$this->db->select('SUM(data_yang_akan_diramal.data_ke) as data_ke, 
 			SUM(data_yang_akan_diramal.data_produksi_bulan_lalu) as data_produksi_bulan_lalu, 
 			SUM(data_yang_akan_diramal.perkalian_data) as perkalian_data, 
-			SUM(data_yang_akan_diramal.data_ke_kuadrat) as data_ke_kuadrat)');
+			SUM(data_yang_akan_diramal.data_ke_kuadrat) as data_ke_kuadrat');
 		$this->db->from('data_yang_akan_diramal');
 		$query = $this->db->get();
 		return $query->result();

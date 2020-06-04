@@ -4,16 +4,19 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title"><?php echo $title ?></h3>
-
         </div>
         <div class="card-body">
           <?php echo form_open($cname.'/insert',['id' => 'form-jabatan']); ?>
-          <input type="hidden" class="form-control" name="id_jabatan" placeholder="">
+          <input type="hidden" class="form-control" name="id_history_cup">
           <div class="row">
           <div class="col-md-6">
           <div class="form-group">
-            <label>Nama Jabatan</label>
-            <input type="text" class="form-control" name="nama_jabatan" placeholder="">
+            <label>No. Kantong</label>
+            <input type="number" class="form-control" name="id_kantong">
+          </div>
+          <div class="form-group">
+            <label>No. Batch</label>
+            <input type="number" class="form-control" name="no_batch">
           </div>
         </div>
       </div>

@@ -7,8 +7,9 @@ class Pembuatan_no_produk_model extends CI_Model {
 
 	public function get_data()
 	{
-		$this->db->select('produk.*, status.status');
+		$this->db->select('petugas_aplikasi.nama_karyawan, produk.*, status.status');
 		$this->db->from($this->table);
+		$this->db->join('petugas_aplikasi', 'petugas_aplikasi.id_petugas = produk.id_petugas', 'left');
 		$this->db->join('status', 'status.id_status = produk.id_status', 'left');
 		$this->db->order_by('id_produk','desc');
 		$query = $this->db->get();
@@ -61,7 +62,17 @@ class Pembuatan_no_produk_model extends CI_Model {
 			$jumlah++;
 		}	
 		return $jumlah;
+	}
 
+	public function get_data_belum()
+	{
+		$this->db->select('petugas_aplikasi.nama_karyawan, produk.*, status.status');
+		$this->db->from($this->table);
+		$this->db->join('petugas_aplikasi', 'petugas_aplikasi.id_petugas = produk.id_petugas', 'left');
+		$this->db->join('status', 'status.id_status = produk.id_status', 'left');
+		$this->db->where('produk.id_status =',1);
+		$query = $this->db->get();
+		return $query->result();
 	}
 }
 

@@ -5,43 +5,6 @@
                 <div class="card-header">
                 <h3 class="card-title"><?php echo $title ?></h3>
                 </div>
-                <div class="card-body">
-                    <?php echo form_open($cname.'/insert',['id' => 'form-pembuatan_no_produk']); ?>
-                    <input type="hidden" class="form-control" name="id_produk" placeholder="">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Nama Petugas</label>
-                              <select name="id_petugas" id="" class="form-control">
-                                <option value="" selected disabled>Pilih</option>
-                                <?php foreach ($data['select_petugas'] as $key => $value): ?>
-                                  <option value="<?php echo $value->id_petugas ?>"><?php echo $value->nama_karyawan ?></option>
-                                <?php endforeach ?>
-                              </select>
-                            </div>
-                            <div class="form-group">
-                                <label>No Batch</label>
-                                <input id="no_batch" type="text" class="form-control" name="no_batch">
-                            </div>
-                            <div class="form-group">
-                                <label>No Produk</label>
-                                <input type="number" class="form-control" name="no_produk" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label>Status Produk</label>
-                                <select name="id_status" id="" class="form-control">
-                                <option value="" selected disabled>Pilih</option>
-                                <?php foreach ($data['select_status'] as $key => $value): ?>
-                                <option value="<?php echo $value->id_status ?>"><?php echo $value->status ?></option>
-                                <?php endforeach ?>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary" onclick="form_reset();">Reset</button>
-                                <?php echo form_close(); ?>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -55,7 +18,6 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th class="th-sticky-action">-</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -94,10 +56,10 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-            { 
-                "title" : "Nama Karyawan",
-                "data": "nama_karyawan" 
-            },
+                  { 
+                        "title" : "Nama Karyawan",
+                        "data": "nama_karyawan" 
+                  },
             { 
                 "title" : "No Batch",
                 "data": "no_batch" 
@@ -113,19 +75,6 @@
             { 
                 "title" : "Status",
                 "data": "status" 
-            },
-            {
-                "title": "Actions",
-                "width" : "120px",
-                "visible":true,
-                "class": "text-center th-sticky-action",
-                "data": (data, type, row) => {
-                    let ret = "";
-                    ret += ' <a class="btn btn-info btn-sm text-white" onclick="fill_form('+data.id_produk+'); return false;"><i class="fas fa-pencil-alt"></i> Edit</a>';
-                    ret += ' <a class="btn btn-danger btn-sm text-white" onclick="delete_produk(this)" data-id="'+data.id_produk+'"><i class="fas fa-trash-alt"></i> Delete</a>';
-
-                    return ret;
-                }
             }
             ]
         });

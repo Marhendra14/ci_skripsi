@@ -18,9 +18,21 @@ class Login extends CI_Controller {
 		];
 		$data['data']['select_departemen'] = $this->Login_model->get_data();
 		$this->load->view('layouts/login',$data);
-
-		if ($this->session->userdata('isLogin') == TRUE) {
-			redirect('Superadmin/dashboard','refresh');
+		$id_departemen = $this->input->post("id_departemen");
+		if ($this->session->userdata('isLogin') == TRUE ) 
+		{
+			if($id_departemen==1)
+				{
+					redirect('Superadmin/dashboard','refresh');
+				}
+				elseif ($id_departemen==2) 
+				{
+					redirect('Logistik/dashboard','refresh');
+				}
+				elseif ($id_departemen==3) 
+				{
+					redirect('Area3/dashboard','refresh');
+				}
 		}
 	}
 
@@ -28,12 +40,17 @@ class Login extends CI_Controller {
 
 		$this->form_validation->set_rules('nik',"Nomor Induk Karyawan","trim|required");
 		$this->form_validation->set_rules('password',"Password","trim|required");
-		$this->form_validation->set_rules('id_departemen',"Id Departemen","trim|required");
+		$this->form_validation->set_rules('id_departemen',"Nama Departemen","trim|required");
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
 
 		if($this->form_validation->run() == false)
-		{
+		{	
+			$data = [
+			'title' => "Login",
+			'data' => array(),
+			];
+			$data['data']['select_departemen'] = $this->Login_model->get_data();
 			$this->load->view('layouts/login',$data);
 		}
 		else
@@ -60,19 +77,15 @@ class Login extends CI_Controller {
 				}
 				elseif ($id_departemen==2) 
 				{
-					redirect('Area3/dashboard','refresh');
+					redirect('Logistik/dashboard','refresh');
 				}
 				elseif ($id_departemen==3) 
 				{
-					redirect('Logistik/dashboard','refresh');
+					redirect('Area3/dashboard','refresh');
 				}
 				elseif ($id_departemen==4) 
 				{
 					redirect('Pengeluaran/dashboard','refresh');
-				}
-				elseif ($id_departemen==5) 
-				{
-					redirect('Logistik/isi_logistik','refresh');
 				}
 			}
 			else{

@@ -20,7 +20,7 @@
 				'count_data_pengeluaran' => $this->Data_pengeluaran_model->count_data_pengeluaran(),
 				'data' => array(),
 			];
-			$data['data']['select_petugas_aplikasi'] = $this->Petugas_aplikasi_model->get_data();
+			$data['data']['select_petugas_aplikasi'] = $this->Petugas_aplikasi_model->get_data_pengeluaran();
 			$data['data']['select_vendor'] = $this->Vendor_model->get_data();
 			$this->load->view('pages/pengeluaran/layouts/dashboard', $data);
 			if ($this->session->userdata('isLogin') == FALSE) {

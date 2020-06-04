@@ -8,18 +8,19 @@ class Pembuatan_no_kantong extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Area3/Pembuatan_no_kantong_model','Status_model']);
+		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','Area3/Pembuatan_no_kantong_model','Status_model','Logistik/History_cup_model']);
 	}
 
 	public function index()
 	{
 		$data = [
-			'title' => "Kantong",
+			'title' => "Pembuatan Nomor Kantong",
 			'cname' => $this->cname,
 			'area3' => "pembuatan_no_kantong/index",
 			'count_pembuatan_no_kantong' => $this->Pembuatan_no_kantong_model->count_pembuatan_no_kantong(),
 			'data' => array(),
 		];
+		$data['data']['select_petugas'] = $this->Petugas_aplikasi_model->get_data_area3();
 		$data['data']['select_status'] = $this->Status_model->get_data();
 		$this->load->view('pages/area3/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
@@ -42,9 +43,9 @@ class Pembuatan_no_kantong extends CI_Controller {
 
 	public function insert()
 	{
+		$this->form_validation->set_rules('id_petugas','Nama Karyawan','trim|required');
 		$this->form_validation->set_rules('no_batch','No Batch','trim|required');
 		$this->form_validation->set_rules('no_kantong','No Kantong','trim|required');
-		$this->form_validation->set_rules('tanggal_pembuatan','Tanggal Pembuatan','trim|required');
 		$this->form_validation->set_rules('id_status','Status Kantong','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
@@ -53,14 +54,19 @@ class Pembuatan_no_kantong extends CI_Controller {
 			$id = $this->input->post('id_kantong');
 			
 			$data = [
+				'id_petugas' => $this->input->post('id_petugas'),
 				'no_batch' => $this->input->post('no_batch'),
 				'no_kantong' => $this->input->post('no_kantong'),
-				'tanggal_pembuatan' => $this->input->post('tanggal_pembuatan'),
-				'id_status' => $this->input->post('id_status'),
+				'id_status' => $this->input->post('id_status')
 			];			
-
+			$data_history = [				
+				'id_kantong' => $this->input->post('no_kantong'),
+				'no_batch' => $this->input->post('no_batch'),
+				'waktu_pembuatan_no' => date("Y-m-d H:i:s")
+			];		
 			if ($id == "") {
 				$insert = $this->Pembuatan_no_kantong_model->insert($data);
+				$insert2 = $this->History_cup_model->insert($data_history);
 				if($insert){
 					$ret = [
 						'title' => "Insert",

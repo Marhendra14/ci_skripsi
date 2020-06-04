@@ -32,6 +32,13 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url('pengeluaran/vendor') ?>" class="nav-link">
+            <p>
+              XLaporan Pengeluaran
+            </p>
+          </a>
+        </li>
       </ul>
     </li>
   </ul>

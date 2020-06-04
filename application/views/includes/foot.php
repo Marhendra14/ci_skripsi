@@ -66,7 +66,22 @@
         }
       });
     });
+    //untuk kode batch
+    $(function()
+    {
+      var date = new Date();
+      var dateString;
+      date.setDate(date.getDate() + 0 );
 
+      dateString = ('0' + date.getDate()).slice(-2)+('0' + (date.getMonth()+1)).slice(-2)+date.getFullYear();
+      document.getElementById("no_batch").value = dateString;
+    });
 
+    $('id_produk').change(function()
+    {
+      let val = $(this).val();
+      let output = val+2;
+      $('no_batch').val(output);
+    });
 
   </script>

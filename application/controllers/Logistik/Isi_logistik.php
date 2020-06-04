@@ -20,7 +20,7 @@
 				'count_isi_logistik' => $this->Isi_logistik_model->count_isi_logistik(),
 				'data' => array(),
 			];
-			$data['data']['select_petugas'] = $this->Petugas_aplikasi_model->get_data();
+			$data['data']['select_petugas'] = $this->Petugas_aplikasi_model->get_data_logistik();
 			$this->load->view('pages/logistik/layouts/dashboard', $data);
 			if ($this->session->userdata('isLogin') == FALSE) {
 				redirect('login','refresh');
@@ -83,15 +83,15 @@
 						$sum_perkalian_data = $sum[0]->perkalian_data;
 						$sum_data_ke_kuadrat = $sum[0]->data_ke_kuadrat;
 
-						$resultb = ((($count*$sum_perkalian_data)-($sum_data_ke*$sum_data_produksi_bulan_lalu))/(($count*$sum_data_ke_kuadrat)-($sum_data_ke*$sum_data_ke)));
+						$resultb = (($count*$sum_perkalian_data)-($sum_data_ke*$sum_data_produksi_bulan_lalu))/(($count*$sum_data_ke_kuadrat)-($sum_data_ke*$sum_data_ke));
 						$resulta = (($sum_data_produksi_bulan_lalu/$count)-(($resultb*$sum_data_ke)/$count));
-						$result_akhir = ($resulta+($resultb*($count+1)));
-						$update = $this->db->update_data_yang_akan_diramal($last_id, $result_akhir);
+						$hasil_peramalan = ($resulta+($resultb*($count+1)));						
+						$update = $this->Isi_logistik_model->update_data_yang_akan_diramal($last_id, $hasil_peramalan);
 						if($update)
 						{
 							$ret = [
 							'title' => "Insert",
-							'text' => "Insert success",
+							'text' => "Hasil Peramalan Bulan Ini = {$hasil_peramalan}",
 							'icon' => "success",
 						];
 						}					
@@ -136,6 +136,15 @@
 					'icon' => 'warning'
 				];
 			}
+			$all = array(
+						'sum_data_ke' => $sum_data_ke, 
+						'sum_data_produksi_bulan_lalu' => $sum_data_produksi_bulan_lalu, 
+						'sum_perkalian_data' => $sum_perkalian_data,
+						'sum_data_ke_kuadrat' => $sum_data_ke_kuadrat,
+						'resultb' => $resultb,
+						'resulta' => $resulta,
+						'$hasil_peramalan' => $hasil_peramalan
+						);
 			echo json_encode($ret);
 		}
 
