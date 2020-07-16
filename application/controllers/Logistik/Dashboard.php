@@ -8,7 +8,7 @@ class Dashboard extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Logistik/Isi_logistik_model','Superadmin/Petugas_aplikasi_model']);
+		$this->load->model(['Logistik/Isi_logistik_model','Superadmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Area3/Pembuatan_no_kantong_model']);
 
 	}
 
@@ -19,6 +19,8 @@ class Dashboard extends CI_Controller {
 			'cname' => $this->cname,
 			'logistik' => "dashboard/index",
 			'count_isi_logistik' => $this->Isi_logistik_model->count_isi_logistik(),
+			'count_storage_produk' => $this->Pembuatan_no_produk_model->count_storage_produk(),
+			'count_storage_cup' => $this->Pembuatan_no_kantong_model->count_storage_cup(),
 			'data' => array(),
 		];
 		$this->load->view('pages/logistik/layouts/dashboard',$data);
@@ -27,24 +29,4 @@ class Dashboard extends CI_Controller {
 			redirect('login','refresh');
 		}
 	}
-
-
-	// public function get_chart_pengaduan()
-	// {
-	// 	$id_kategori = ($this->input->post('id_kategori') != '0' ? $this->input->post('id_kategori') : null);
-	// 	$waktu_lapor = ($this->input->post('waktu_lapor') != '0' ? $this->input->post('waktu_lapor') : null);
-	// 	$data = $this->Pengaduan_model->get_chart_pengaduan($id_kategori, $waktu_lapor);
-	// 	echo json_encode($data);
-	// }
-
-	// public function get_table_pengaduan()
-	// {
-	// 	$id_kategori = ($this->input->post('pilih_kategori') != '0' ? $this->input->post('pilih_kategori') : null);
-	// 	$waktu_lapor = ($this->input->post('pilih_tahun') != '0' ? $this->input->post('pilih_tahun') : null);
-	// 	$data['data'] = $this->Dashboard_model->get_table_pengaduan($id_kategori, $waktu_lapor);
-	// 	echo json_encode($data);
-	// }
 }
-
-/* End of file Dashboard.php */
-/* Location: ./application/controllers/Dashboard.php */

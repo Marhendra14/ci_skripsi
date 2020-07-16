@@ -14,6 +14,21 @@ class Jabatan_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function get_grade($grade)
+	{
+		$this->db->select('id_jabatan,nama_jabatan');
+		$this->db->from($this->table);
+		$this->db->where('grade',$grade);
+		$query = $this->db->get();
+		return $query;
+	}
+
+	public function grade()
+	{
+		$data = $this->db->query('select distinct grade from jabatan');
+		return $data->result();
+	}
+
 	public function get_data_by_id($id)
 	{
 		$this->db->select('*');

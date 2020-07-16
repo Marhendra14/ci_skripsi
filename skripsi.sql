@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2020 at 06:26 AM
+-- Generation Time: Jun 05, 2020 at 04:38 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -19,6 +19,51 @@ SET time_zone = "+00:00";
 --
 -- Database: `skripsi`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_produksi_cup`
+--
+
+CREATE TABLE `data_produksi_cup` (
+  `id_data_produksi_cup` int(10) NOT NULL,
+  `id_petugas` int(10) NOT NULL,
+  `id_kantong` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
+  `total_cup` int(10) NOT NULL,
+  `jumlah_cup_reject` int(10) NOT NULL,
+  `jumlah_cup_bersih` int(10) NOT NULL,
+  `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id_status` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `data_produksi_cup`
+--
+
+INSERT INTO `data_produksi_cup` (`id_data_produksi_cup`, `id_petugas`, `id_kantong`, `no_batch`, `total_cup`, `jumlah_cup_reject`, `jumlah_cup_bersih`, `tanggal_pembuatan`, `id_status`) VALUES
+(1, 1, 1, '03062020', 40, 10, 30, '2020-06-04 18:36:49', 1),
+(2, 3, 3, '03062020', 40, 10, 30, '2020-06-04 18:32:22', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_produksi_dan_penjualan_produk`
+--
+
+CREATE TABLE `data_produksi_dan_penjualan_produk` (
+  `id_data_produksi_dan_penjualan_produk` int(10) NOT NULL,
+  `id_petugas` int(10) NOT NULL,
+  `id_produk` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
+  `jumlah_produk` int(10) NOT NULL,
+  `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id_vendor` varchar(225) NOT NULL,
+  `alamat_vendor` varchar(225) NOT NULL,
+  `no_telephone_vendor` varchar(20) NOT NULL,
+  `id_status` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -39,23 +84,13 @@ CREATE TABLE `data_yang_akan_diramal` (
 --
 
 INSERT INTO `data_yang_akan_diramal` (`data_ke`, `data_produksi_bulan_lalu`, `perkalian_data`, `data_ke_kuadrat`, `hasil_peramalan`) VALUES
-(1, 111, 111, 1, 0),
-(2, 222, 444, 4, 0),
-(3, 2020, 6060, 9, 0),
-(4, 2121, 8484, 16, 0),
-(5, 2929, 14645, 25, 0),
-(6, 77, 462, 36, 0),
-(7, 333, 2331, 49, 0),
-(8, 44, 352, 64, 0),
-(9, 28, 252, 81, 0),
-(10, 19, 190, 100, 0),
-(11, 12, 132, 121, 0),
-(12, 14, 168, 144, 0),
-(13, 21, 273, 169, 0),
-(14, 13, 182, 196, 0),
-(15, 91, 1365, 225, 0),
-(16, 31, 496, 256, 0),
-(17, 13, 221, 289, 0);
+(1, 17118, 17118, 1, 17118),
+(2, 16325, 32650, 4, 15532),
+(3, 20892, 62676, 9, 21886),
+(4, 18546, 74184, 16, 20433),
+(5, 22453, 112265, 25, 22934),
+(6, 19929, 119574, 36, 22220),
+(7, 23109, 161763, 49, 23588);
 
 -- --------------------------------------------------------
 
@@ -73,24 +108,61 @@ CREATE TABLE `departemen` (
 --
 
 INSERT INTO `departemen` (`id_departemen`, `nama_departemen`) VALUES
-(1, 'Manufacturing Area 1'),
-(2, 'Manufacturing Area 2'),
+(1, 'Super Admin'),
+(2, 'Logistik'),
 (3, 'Manufacturing Area 3'),
-(4, 'Manufacturing Area 4'),
-(5, 'Logistik');
+(4, 'Pengeluaran');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `isi_admin_produk`
+-- Table structure for table `history_cup`
 --
 
-CREATE TABLE `isi_admin_produk` (
-  `id_data_produk` int(10) NOT NULL,
-  `id_petugas` int(10) NOT NULL,
-  `id_produk` int(10) NOT NULL,
-  `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE `history_cup` (
+  `id_history_cup` int(10) NOT NULL,
+  `id_kantong` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
+  `waktu_pembuatan_no` datetime NOT NULL,
+  `waktu_setelah_digunakan` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `history_cup`
+--
+
+INSERT INTO `history_cup` (`id_history_cup`, `id_kantong`, `no_batch`, `waktu_pembuatan_no`, `waktu_setelah_digunakan`) VALUES
+(1, 1, '03062020', '2020-06-03 20:42:49', '0000-00-00 00:00:00'),
+(2, 2, '04062020', '2020-06-04 18:31:23', '0000-00-00 00:00:00'),
+(3, 3, '04062020', '2020-06-04 18:31:38', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_produk`
+--
+
+CREATE TABLE `history_produk` (
+  `id_history_produk` int(10) NOT NULL,
+  `id_produk` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
+  `waktu_pembuatan_no` datetime NOT NULL,
+  `waktu_setelah_digunakan` datetime NOT NULL,
+  `id_vendor` int(10) NOT NULL,
+  `alamat_vendor` varchar(225) NOT NULL,
+  `no_telephone_vendor` varchar(225) NOT NULL,
+  `jumlah_produk` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `history_produk`
+--
+
+INSERT INTO `history_produk` (`id_history_produk`, `id_produk`, `no_batch`, `waktu_pembuatan_no`, `waktu_setelah_digunakan`, `id_vendor`, `alamat_vendor`, `no_telephone_vendor`, `jumlah_produk`) VALUES
+(1, 1, '03062020', '2020-06-03 20:46:53', '0000-00-00 00:00:00', 0, '', '', 0),
+(2, 10, '04062020', '2020-06-04 15:13:56', '0000-00-00 00:00:00', 0, '', '', 0),
+(3, 9, '04062020', '2020-06-04 17:20:33', '0000-00-00 00:00:00', 0, '', '', 0),
+(4, 1, '04062020', '2020-06-04 21:03:43', '0000-00-00 00:00:00', 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -111,39 +183,13 @@ CREATE TABLE `isi_logistik` (
 --
 
 INSERT INTO `isi_logistik` (`id_isi_logistik`, `id_petugas`, `bulan`, `tahun`, `data_produksi_bulan_lalu`) VALUES
-(1, 4, 1, 2020, 111),
-(2, 4, 2, 2020, 222),
-(3, 4, 1, 2020, 2020),
-(4, 4, 2, 2020, 2121),
-(5, 4, 3, 2020, 2929),
-(6, 4, 7, 2020, 77),
-(7, 4, 3, 2020, 333),
-(8, 4, 4, 2020, 44),
-(9, 4, 8, 2020, 28),
-(10, 4, 2, 2020, 19),
-(11, 4, 2, 2020, 12),
-(12, 4, 8, 2020, 14),
-(13, 4, 3, 2020, 21),
-(14, 4, 3, 2020, 13),
-(15, 4, 3, 2020, 91),
-(16, 4, 1, 2020, 31),
-(17, 4, 2, 2020, 13);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `isi_storage_cup`
---
-
-CREATE TABLE `isi_storage_cup` (
-  `id_data_produksi_cup` int(10) NOT NULL,
-  `id_petugas` int(10) NOT NULL,
-  `id_kantong` int(10) NOT NULL,
-  `total_cup` int(10) NOT NULL,
-  `jumlah_cup_reject` int(10) NOT NULL,
-  `jumlah_cup_bersih` int(10) NOT NULL,
-  `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(1, 2, 1, 2019, 17118),
+(2, 2, 2, 2019, 16325),
+(3, 2, 3, 2019, 20892),
+(4, 2, 4, 2019, 18546),
+(5, 2, 5, 2019, 22453),
+(6, 2, 6, 2019, 19929),
+(7, 2, 7, 2019, 23109);
 
 -- --------------------------------------------------------
 
@@ -174,9 +220,10 @@ INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 
 CREATE TABLE `kantong` (
   `id_kantong` int(10) NOT NULL,
-  `no_batch` int(10) NOT NULL,
+  `id_petugas` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
   `no_kantong` int(10) NOT NULL,
-  `tanggal_pembuatan` datetime NOT NULL,
+  `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_status` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -184,12 +231,10 @@ CREATE TABLE `kantong` (
 -- Dumping data for table `kantong`
 --
 
-INSERT INTO `kantong` (`id_kantong`, `no_batch`, `no_kantong`, `tanggal_pembuatan`, `id_status`) VALUES
-(5, 29052020, 1, '2020-05-29 00:00:00', 1),
-(6, 29042020, 2, '2020-11-11 00:00:00', 1),
-(7, 29042020, 3, '2020-11-11 00:00:00', 1),
-(8, 29042020, 2, '2020-11-11 00:00:00', 1),
-(9, 29042020, 9, '2020-11-11 00:00:00', 1);
+INSERT INTO `kantong` (`id_kantong`, `id_petugas`, `no_batch`, `no_kantong`, `tanggal_pembuatan`, `id_status`) VALUES
+(1, 3, '03062020', 1, '2020-06-03 20:42:49', 1),
+(2, 3, '04062020', 2, '2020-06-04 18:31:23', 1),
+(3, 3, '04062020', 3, '2020-06-04 18:31:38', 1);
 
 -- --------------------------------------------------------
 
@@ -234,15 +279,10 @@ CREATE TABLE `petugas_aplikasi` (
 --
 
 INSERT INTO `petugas_aplikasi` (`id_petugas`, `nik`, `password`, `nama_karyawan`, `id_departemen`, `grade`, `id_jabatan`, `is_active`) VALUES
-(1, '1234', '1234', 'M', 1, 9, 3, 1),
-(2, '1', '1', '1', 1, 1, 3, 1),
-(3, '12', '12', '12', 1, 12, 3, 2),
-(4, '12345', '12345', '12345', 3, 12345, 6, 1),
-(5, '1010', '1010', 'Agus', 3, 9, 3, 1),
-(6, '2', '2', 'Halu', 2, 9, 4, 1),
-(7, '2', '2', 'Halu', 2, 9, 4, 2),
-(8, '333', '333', 'Tiga Dara', 4, 10, 3, 1),
-(9, '5', '5', '5', 5, 10, 3, 1);
+(1, '12345', '12345', 'Pratama Putra Marhendra', 1, 9, 3, 1),
+(2, '2', '2', 'Dua', 2, 9, 3, 1),
+(3, '3', '3', 'Tiga', 3, 9, 3, 1),
+(4, '4', '4', 'Empat', 4, 9, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -252,7 +292,8 @@ INSERT INTO `petugas_aplikasi` (`id_petugas`, `nik`, `password`, `nama_karyawan`
 
 CREATE TABLE `produk` (
   `id_produk` int(10) NOT NULL,
-  `no_batch` int(10) NOT NULL,
+  `id_petugas` int(10) NOT NULL,
+  `no_batch` text NOT NULL,
   `no_produk` int(10) NOT NULL,
   `tanggal_pembuatan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_status` int(10) NOT NULL
@@ -262,8 +303,11 @@ CREATE TABLE `produk` (
 -- Dumping data for table `produk`
 --
 
-INSERT INTO `produk` (`id_produk`, `no_batch`, `no_produk`, `tanggal_pembuatan`, `id_status`) VALUES
-(1, 30042020, 1, '2020-04-30 00:00:00', 4);
+INSERT INTO `produk` (`id_produk`, `id_petugas`, `no_batch`, `no_produk`, `tanggal_pembuatan`, `id_status`) VALUES
+(1, 3, '03062020', 1, '2020-06-03 20:46:53', 1),
+(2, 3, '04062020', 10, '2020-06-04 15:13:56', 1),
+(3, 3, '04062020', 9, '2020-06-04 17:20:33', 1),
+(4, 3, '04062020', 1, '2020-06-04 21:03:43', 1);
 
 -- --------------------------------------------------------
 
@@ -295,7 +339,7 @@ INSERT INTO `status` (`id_status`, `status`) VALUES
 
 CREATE TABLE `storage_cup` (
   `jumlah_cup` int(10) NOT NULL,
-  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `waktu` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -312,18 +356,6 @@ CREATE TABLE `storage_produk` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tracking_kantong`
---
-
-CREATE TABLE `tracking_kantong` (
-  `id_tracking_kantong` int(10) NOT NULL,
-  `id_kantong` int(10) NOT NULL,
-  `id_data_produksi_cup` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `vendor`
 --
 
@@ -331,7 +363,7 @@ CREATE TABLE `vendor` (
   `id_vendor` int(10) NOT NULL,
   `nama_vendor` varchar(225) NOT NULL,
   `alamat_vendor` varchar(225) NOT NULL,
-  `no_telephone_vendor` int(50) NOT NULL
+  `no_telephone_vendor` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -339,11 +371,23 @@ CREATE TABLE `vendor` (
 --
 
 INSERT INTO `vendor` (`id_vendor`, `nama_vendor`, `alamat_vendor`, `no_telephone_vendor`) VALUES
-(1, 'Abc', 'Panjaitan', 80789);
+(1, 'Rumah Sakit Prima Husada Pandaan', 'Karangjati, Pandaan', '081234567890');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `data_produksi_cup`
+--
+ALTER TABLE `data_produksi_cup`
+  ADD PRIMARY KEY (`id_data_produksi_cup`);
+
+--
+-- Indexes for table `data_produksi_dan_penjualan_produk`
+--
+ALTER TABLE `data_produksi_dan_penjualan_produk`
+  ADD PRIMARY KEY (`id_data_produksi_dan_penjualan_produk`);
 
 --
 -- Indexes for table `data_yang_akan_diramal`
@@ -358,22 +402,22 @@ ALTER TABLE `departemen`
   ADD PRIMARY KEY (`id_departemen`);
 
 --
--- Indexes for table `isi_admin_produk`
+-- Indexes for table `history_cup`
 --
-ALTER TABLE `isi_admin_produk`
-  ADD PRIMARY KEY (`id_data_produk`);
+ALTER TABLE `history_cup`
+  ADD PRIMARY KEY (`id_history_cup`);
+
+--
+-- Indexes for table `history_produk`
+--
+ALTER TABLE `history_produk`
+  ADD PRIMARY KEY (`id_history_produk`);
 
 --
 -- Indexes for table `isi_logistik`
 --
 ALTER TABLE `isi_logistik`
   ADD PRIMARY KEY (`id_isi_logistik`);
-
---
--- Indexes for table `isi_storage_cup`
---
-ALTER TABLE `isi_storage_cup`
-  ADD PRIMARY KEY (`id_data_produksi_cup`);
 
 --
 -- Indexes for table `jabatan`
@@ -412,12 +456,6 @@ ALTER TABLE `status`
   ADD PRIMARY KEY (`id_status`);
 
 --
--- Indexes for table `tracking_kantong`
---
-ALTER TABLE `tracking_kantong`
-  ADD PRIMARY KEY (`id_tracking_kantong`);
-
---
 -- Indexes for table `vendor`
 --
 ALTER TABLE `vendor`
@@ -428,20 +466,35 @@ ALTER TABLE `vendor`
 --
 
 --
+-- AUTO_INCREMENT for table `data_produksi_cup`
+--
+ALTER TABLE `data_produksi_cup`
+  MODIFY `id_data_produksi_cup` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `data_produksi_dan_penjualan_produk`
+--
+ALTER TABLE `data_produksi_dan_penjualan_produk`
+  MODIFY `id_data_produksi_dan_penjualan_produk` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `departemen`
 --
 ALTER TABLE `departemen`
-  MODIFY `id_departemen` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_departemen` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `history_cup`
+--
+ALTER TABLE `history_cup`
+  MODIFY `id_history_cup` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `history_produk`
+--
+ALTER TABLE `history_produk`
+  MODIFY `id_history_produk` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `isi_logistik`
 --
 ALTER TABLE `isi_logistik`
-  MODIFY `id_isi_logistik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `isi_storage_cup`
---
-ALTER TABLE `isi_storage_cup`
-  MODIFY `id_data_produksi_cup` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_isi_logistik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `jabatan`
 --
@@ -451,7 +504,7 @@ ALTER TABLE `jabatan`
 -- AUTO_INCREMENT for table `kantong`
 --
 ALTER TABLE `kantong`
-  MODIFY `id_kantong` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_kantong` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `pengeluaran`
 --
@@ -461,22 +514,17 @@ ALTER TABLE `pengeluaran`
 -- AUTO_INCREMENT for table `petugas_aplikasi`
 --
 ALTER TABLE `petugas_aplikasi`
-  MODIFY `id_petugas` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_petugas` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id_produk` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produk` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `status`
 --
 ALTER TABLE `status`
   MODIFY `id_status` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `tracking_kantong`
---
-ALTER TABLE `tracking_kantong`
-  MODIFY `id_tracking_kantong` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vendor`
 --

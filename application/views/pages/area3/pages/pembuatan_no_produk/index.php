@@ -1,212 +1,277 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                <h3 class="card-title"><?php echo $title ?></h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <section class="content">
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Nomor Produk</button>
+          </section>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Form Tambah Nomor Produk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-                <div class="card-body">
-                    <?php echo form_open($cname.'/insert',['id' => 'form-pembuatan_no_produk']); ?>
-                    <input type="hidden" class="form-control" name="id_produk" placeholder="">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label>Nama Petugas</label>
-                              <select name="id_petugas" id="" class="form-control">
-                                <option value="" selected disabled>Pilih</option>
-                                <?php foreach ($data['select_petugas'] as $key => $value): ?>
-                                  <option value="<?php echo $value->id_petugas ?>"><?php echo $value->nama_karyawan ?></option>
-                                <?php endforeach ?>
-                              </select>
-                            </div>
-                            <div class="form-group">
-                                <label>No Batch</label>
-                                <input id="no_batch" type="text" class="form-control" name="no_batch">
-                            </div>
-                            <div class="form-group">
-                                <label>No Produk</label>
-                                <input type="number" class="form-control" name="no_produk" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label>Status Produk</label>
-                                <select name="id_status" id="" class="form-control">
-                                <option value="" selected disabled>Pilih</option>
-                                <?php foreach ($data['select_status'] as $key => $value): ?>
-                                <option value="<?php echo $value->id_status ?>"><?php echo $value->status ?></option>
-                                <?php endforeach ?>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary" onclick="form_reset();">Reset</button>
-                                <?php echo form_close(); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="table-data" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" data-url="<?php echo base_url($cname.'/get_data') ?>">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th class="th-sticky-action">-</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-body">
+                  <?php echo form_open($cname.'/insert',['id' => 'form-pembuatan_no_produk']); ?>
+                  <input type="hidden" class="form-control" name="id_produk" placeholder="">
+                  <input type="hidden" class="form-control" value="<?php echo $this->session->userdata('id_petugas') ?>" name="id_petugas" placeholder="">
+                  <div class="form-group">
+                    <label>Nama Petugas</label>
+                    <input type="text" class="form-control" value="<?php echo $this->session->userdata('nama_karyawan') ?>" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label>No Batch</label>
+                    <input id="no_batch" type="text" class="form-control" name="no_batch" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label>No Produk</label>
+                    <input type="number" class="form-control" name="no_produk" id="insert_no_produk" readonly>
+                  </div>
+                  <input type="hidden" class="form-control" value=24 name="jumlah_produk" readonly>
+                  <input type="hidden" class="form-control" name="tanggal_pembuatan" readonly>
+                  <div class="form-group">
+                    <label>Status Produk</label>
+                    <input type="text" class="form-control" name="status_show" value="<?php echo $data['select_status'][0]->status ?>" readonly>
+                    <input type="hidden" class="form-control" name="id_status" value="<?php echo $data['select_status'][0]->id_status ?>" readonly>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" class="btn btn-primary-default" data-dismiss="modal">Close</button>
+                  <?php echo form_close(); ?>
                 </div>
+              </div>
             </div>
-        </div>  
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-lg-10 col-md-8 col-sm-12 pb-2">
+            <form method="post" id="form-filter">
+              <input type="hidden" id="url_filter" value="<?php echo base_url($cname.'/get_data') ?>">
+            <div class="form-group row mb-1 filter-input">
+              <label for="" class="control-label col-form-label col-md-2">No Batch</label>
+              <div class="col-md-3">
+                <div id="demo"></div>
+                    <input type="number" class="form-control" value="" name="no_batch" id="no_batch_val" pattern="[0-9]{8}" onKeyPress="
+                    if(this.value.length<7)
+                    {
+                      document.getElementById('demo').innerHTML = 'Masukkan Minimal 8 Angka';
+                    }
+                    else
+                    {
+                      document.getElementById('demo').innerHTML = '';
+                    }
+                    if(this.value.length<8)
+                    { 
+                    return event.charCode >= 48;
+                    }
+                    else if(this.value.length==8){
+                    return false;
+                    }
+                    "/>
+              </div>
+            </div>
+            <div class="form-group row mb-1 filter-input">
+              <label for="" class="control-label col-form-label col-md-2">No Produk</label>
+              <div class="col-md-3">
+                <select name="no_produk" id="no_produk" class="form-control">
+                  <option value="" selected disabled>Choose</option>
+                  <option value="" selected>All</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row mb-0 mt-2">
+              <label for="" class="control-label col-form-label col-md-2 filter-input"></label>
+              <div class="col-md-9">
+                <button type="submit" class="btn btn-primary filter-input" id="filter-submit">Submit</button>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="table-data" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" data-url="<?php echo base_url($cname.'/get_data') ?>">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  var url_fill_form = '<?php echo base_url($cname.'/get_data_by_id') ?>';
+  var url_insert_produk = '<?php echo base_url($cname.'/insert') ?>';
+  var base_cname = "<?php echo base_url($cname) ?>";
+  var table = "";
 
-    var url_fill_form = '<?php echo base_url($cname.'/get_data_by_id') ?>';
-    var url_insert_produk = '<?php echo base_url($cname.'/insert') ?>';
-    var base_cname = "<?php echo base_url($cname) ?>";
-    var table = "";
-    $(document).ready(function() {
-        var table_url = $('#table-data').data('url');
-        table = $('#table-data').DataTable({
-            orderCellsTop : true,
-            responsive : true,
-            dom: "<'row'<'col-6'l><'col-6'f>>rtip'",
-            scrollY: true,
-            scrollX: true,
-            "ajax": {
-                'url': table_url,
-            },
-            "columns": [
-            {
-                "title" : "No",
-                "width" : "15px",
-                "data": null,
-                "class": "text-center",
-                render: (data, type, row, meta) => {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                }
-            },
-            { 
-                "title" : "Nama Karyawan",
-                "data": "nama_karyawan" 
-            },
-            { 
-                "title" : "No Batch",
-                "data": "no_batch" 
-            },
-            { 
-                "title" : "No Produk",
-                "data": "no_produk" 
-            },
-            { 
-                "title" : "Tanggal Pembuatan",
-                "data": "tanggal_pembuatan" 
-            },
-            { 
-                "title" : "Status",
-                "data": "status" 
-            },
-            {
-                "title": "Actions",
-                "width" : "120px",
-                "visible":true,
-                "class": "text-center th-sticky-action",
-                "data": (data, type, row) => {
-                    let ret = "";
-                    ret += ' <a class="btn btn-info btn-sm text-white" onclick="fill_form('+data.id_produk+'); return false;"><i class="fas fa-pencil-alt"></i> Edit</a>';
-                    ret += ' <a class="btn btn-danger btn-sm text-white" onclick="delete_produk(this)" data-id="'+data.id_produk+'"><i class="fas fa-trash-alt"></i> Delete</a>';
+  get_data = (table_url) => {
+    table = $('#table-data').DataTable({
+      orderCellsTop : true,
+      responsive : true,
+      dom: "<'row'<'col-6'l><'col-6'f>>rtip'",
+      scrollY: true,
+      scrollX: true,
+      "ajax": {
+        'url': table_url,
+      },
+      "columns": [
+      {
+        "title" : "No",
+        "width" : "15px",
+        "data": null,
+        "class": "text-center",
+        render: (data, type, row, meta) => {
+          return meta.row + meta.settings._iDisplayStart + 1;
+        }
+      },
+      { 
+        "title" : "Nama Karyawan",
+        "data": "nama_karyawan" 
+      },
+      { 
+        "title" : "No Batch",
+        "data": "no_batch" 
+      },
+      { 
+        "title" : "No Produk",
+        "data": "no_produk" 
+      },
+      { 
+        "title" : "Jumlah Produk",
+        "data": "jumlah_produk" 
+      },
+      { 
+        "title" : "Tanggal Pembuatan",
+        "data": "tanggal_pembuatan" 
+      },
+      { 
+        "title" : "Status",
+        "data": "status" 
+      }
+      ]
+    });
+  }
+  $(document).ready(function() {
+    var table_url = $('#table-data').data('url');
+    console.log(table_url);
+    get_data(table_url);
 
-                    return ret;
-                }
-            }
-            ]
-        });
-
-        $('form#form-pembuatan_no_produk').submit(function(e){
-            var form = $(this);
-            e.preventDefault();
-            $.ajax({
+    $('form#form-pembuatan_no_produk').submit(function(e){
+      var form = $(this);
+      e.preventDefault();
+      $.ajax({
                 url: url_insert_produk,
                 type: 'POST',
                 data: form.serialize(),
                 dataType : "JSON",
                 success: function (data) {
-                    if(data.code == '2'){
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-                        Object.keys(data.field).forEach(function(key) {
-                            $('#form-pembuatan_no_produk').find('[name="'+key+'"]').parent().find('input,select').addClass('is-invalid');
-                            $('#form-pembuatan_no_produk').find('[name="'+key+'"]').parent().append('<div class="invalid-feedback">'+data.field[key]+'</div>');
-                        })
-                    }else{
-                        form_reset();
-                        swal(data.title,data.text,data.icon);
-                    }
+                  swal(data.title,data.text,data.icon);
+                  scroll_smooth('table',500);
+                  form_reset();
+                  $('#exampleModal').modal('hide');
+                  table.ajax.reload(null,false);
                 }
-            });
-        });
+              });
     });
+    $("form#form-filter").submit(function(e) {
+        e.preventDefault();
+        var table_url = $('#url_filter').val();
+        table_url = table_url+'/'+$("#no_batch_val").val()+'/'+$("#no_produk").val()
+        console.log(table_url);
+        var table = $('#table-data').DataTable();
+        table.clear().draw();
+        table.destroy();
+        $('#table-data').empty();
+        get_data(table_url);
 
-    var fill_form = (id_produk) => {
+      });
+  });
+  $(function()
+  {
+    var date = new Date();
+    var dateString;
+    date.setDate(date.getDate() + 0 );
+
+    dateString = ('0' + date.getDate()).slice(-2)+('0' + (date.getMonth()+1)).slice(-2)+date.getFullYear();
+    document.getElementById("no_batch").value = dateString;
+
+    var d = new Date();
+
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+
+    var output = d.getFullYear() + '-' +
+        (month<10 ? '0' : '') + month + '-' +
+        (day<10 ? '0' : '') + day;
+
+    // console.log(output);
+    $.ajax({
+      url :base_cname+"/get_max_no_produk",
+      type: "GET",
+      dataType: "JSON",
+      success: function(data)
+      {
+        var max=data[0]['max'] ? parseInt(data[0]['max']) : 0;
+        var nilaisekarang = (max + 1 );
+        document.getElementById("insert_no_produk").value = nilaisekarang;
+     }});
+  });
+
+  var form_reset = () => {
+    table.ajax.reload(null,false);
+    $('form#form-pembuatan_no_produk').find('input,select').val('');
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+  }
+
+  var delete_produk = (obj) => {
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if(willDelete){
         $.ajax({
-            url: url_fill_form,
-            type: 'POST',
-            data: {
-                'id_produk' : id_produk
-            },
-            success: function (data) {
-                var json = $.parseJSON(data);
-                let form = $('#form-pembuatan_no_produk');
-                form_reset();
-                form.find('[name="id_produk"]').val(json.id_produk);
-                form.find('[name="nama_karyawan"]').val(json.nama_karyawan);
-                form.find('[name="no_batch"]').val(json.no_batch);
-                form.find('[name="no_produk"]').val(json.no_produk);
-                form.find('[name="tanggal_pembuatan"]').val(json.tanggal_pembuatan);
-                form.find('[name="status"]').val(json.status);
-                scroll_smooth('body',500);
-            },
+          url : base_cname+"/delete_produk",
+          type : 'POST',
+          data : {
+            id_produk : $(obj).data('id'),
+          },
+          dataType : "JSON",
+          success : (data) => {
+            swal(data.title,data.text,data.icon);
+            
+          }
         });
-    }
-
-    var delete_produk = (obj) => {
-        swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if(willDelete){
-                $.ajax({
-                    url : base_cname+"/delete_produk",
-                    type : 'POST',
-                    data : {
-                        id_produk : $(obj).data('id'),
-                    },
-                    dataType : "JSON",
-                    success : (data) => {
-                        swal(data.title,data.text,data.icon);
-                        form_reset();
-                    }
-                });
-            }
-        });
-    }
-
-    var form_reset = () => {
-        table.ajax.reload(null,false);
-        $('form#form-pembuatan_no_produk').find('input,select').val('');
-        $('.is-invalid').removeClass('is-invalid');
-        $('.invalid-feedback').remove();
-    }
+      }
+    });
+  }
 
 </script>

@@ -71,21 +71,6 @@ class Vendor extends CI_Controller {
 						'icon' => "warning",
 					];
 				}   
-			}else {
-				$update = $this->Vendor_model->update($id, $data);
-				if($update){
-					$ret = [
-						'title' => "Update",
-						'text' => "Update success",
-						'icon' => "success",
-					];
-				}else{
-					$ret = [
-						'title' => "Update",
-						'text' => "Update failed",
-						'icon' => "warning",
-					];
-				}
 			}
 		} else {
 			$ret = [
@@ -98,6 +83,38 @@ class Vendor extends CI_Controller {
 		}
 		echo json_encode($ret);
 
+	}
+
+	public function update()
+	{
+		$id = $this->input->post('id_vendor');
+		$data = [
+			'nama_vendor' => $this->input->post('nama_vendor'),
+			'alamat_vendor' => $this->input->post('alamat_vendor'),
+			'no_telephone_vendor' => $this->input->post('no_telephone_vendor')
+		];
+
+		$update = $this->Vendor_model->update($id, $data);
+		if($update){
+			$ret = [
+				'title' => "Update",
+				'text' => "Update success",
+				'icon' => "success",
+			];
+		}else{
+			$ret = [
+				'title' => "Update",
+				'text' => "Update failed",
+				'icon' => "warning",
+			];
+		}
+		echo json_encode($ret);
+	}
+
+	public function edit_vendor($id)
+	{
+		$data = $this->Vendor_model->get_data_by_id($id);
+		echo json_encode($data);
 	}
 
 	public function delete_vendor()

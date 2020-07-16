@@ -17,15 +17,28 @@ class Petugas_aplikasi extends CI_Controller {
 			'title' => "Petugas Aplikasi",
 			'cname' => $this->cname,
 			'superadmin' => "petugas_aplikasi/index",
-			'count_petugas_aplikasi_all' => $this->Petugas_aplikasi_model->count_petugas_aplikasi_all(),
+			'count_petugas_aplikasi_all' => $this->Petugas_aplikasi_model->count_petugas_aplikasi_all1(),
 			'data' => array(),
 		];
+		$data['petugas_aplikasi'] = $this->Petugas_aplikasi_model->get_data();
 		$data['data']['select_departemen'] = $this->Departemen_model->get_data();
-		$data['data']['select_jabatan'] = $this->Jabatan_model->get_data();
+		$data['data']['select_grade'] = $this->Jabatan_model->grade();
 		$this->load->view('pages/superadmin/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}
+	}
+
+	public function count_pgw(){
+		$this->db->where('id_departemen', 1);
+		$aaa=$this->db->get('petugas_aplikasi')->num_rows();
+		echo $aaa;
+	}
+
+	public function get_grade($grade)
+	{
+		$data = $this->Jabatan_model->get_grade($grade)->result();
+		echo json_encode($data);
 	}
 
 	public function get_data()
@@ -44,11 +57,11 @@ class Petugas_aplikasi extends CI_Controller {
 	public function insert()
 	{
 		$this->form_validation->set_rules('nik','Nomor Induk Karyawan','trim|required');
+		$this->form_validation->set_rules('password','Password','trim|required');
 		$this->form_validation->set_rules('nama_karyawan','Nama Karyawan','trim|required');
 		$this->form_validation->set_rules('id_departemen','Nama Departemen','trim|required');
 		$this->form_validation->set_rules('grade','Grade','trim|required');
 		$this->form_validation->set_rules('id_jabatan','Jabatan','trim|required');
-		$this->form_validation->set_rules('is_active','Is Active','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
 
@@ -61,8 +74,7 @@ class Petugas_aplikasi extends CI_Controller {
 				'nama_karyawan' => $this->input->post('nama_karyawan'),
 				'id_departemen' => $this->input->post('id_departemen'),
 				'grade' => $this->input->post('grade'),
-				'id_jabatan' => $this->input->post('id_jabatan'),
-				'is_active' => $this->input->post('is_active'),
+				'id_jabatan' => $this->input->post('id_jabatan')
 			];			
 
 			if ($id == "") {
@@ -73,59 +85,17 @@ class Petugas_aplikasi extends CI_Controller {
 						'text' => "Insert success",
 						'icon' => "success",
 					];
-				}else{
+				}
+				else{
 					$ret = [
 						'title' => "Insert",
 						'text' => "Insert failed",
 						'icon' => "warning",
 					];
 				}   
-			}else {
-				$data_pass = $this->Petugas_aplikasi_model->get_data_by_id2($id);
-
-				foreach ($data_pass as $key => $value) {
-					$pass = $value->password;
-				}
-
-				if ($this->input->post('password') == "") {
-					$data = [
-						'nik' => $this->input->post('nik'),
-						'password' => $pass,
-						'nama_karyawan' => $this->input->post('nama_karyawan'),
-						'id_departemen' => $this->input->post('id_departemen'),
-						'grade' => $this->input->post('grade'),
-						'id_jabatan' => $this->input->post('id_jabatan'),
-						'is_active' => $this->input->post('is_active'),
-					];
-
-				} else {
-					$data = [
-						'nik' => $this->input->post('nik'),
-						'password' => $this->input->post('password'),
-						'nama_karyawan' => $this->input->post('nama_karyawan'),
-						'id_departemen' => $this->input->post('id_departemen'),
-						'grade' => $this->input->post('grade'),
-						'id_jabatan' => $this->input->post('id_jabatan'),
-						'is_active' => $this->input->post('is_active'),
-					];
-				}
-
-				$update = $this->Petugas_aplikasi_model->update($id, $data);
-				if($update){
-					$ret = [
-						'title' => "Update",
-						'text' => "Update success",
-						'icon' => "success",
-					];
-				}else{
-					$ret = [
-						'title' => "Update",
-						'text' => "Update failed",
-						'icon' => "warning",
-					];
-				}
 			}
-		} else {
+			} 
+			else {
 			$ret = [
 				'code' => 2,
 				'title' => 'Warning',
@@ -135,6 +105,41 @@ class Petugas_aplikasi extends CI_Controller {
 			];
 		}
 		echo json_encode($ret);
+	}
+
+	public function update()
+	{
+		$id = $this->input->post('id_petugas');
+		$data = [
+			'nik' => $this->input->post('nik'),
+			'password' => $this->input->post('password'),
+			'nama_karyawan' => $this->input->post('nama_karyawan'),
+			'id_departemen' => $this->input->post('id_departemen'),
+			'grade' => $this->input->post('grade'),
+			'id_jabatan' => $this->input->post('id_jabatan')
+		];
+
+		$update = $this->Petugas_aplikasi_model->update($id, $data);
+		if($update){
+			$ret = [
+				'title' => "Update",
+				'text' => "Update success",
+				'icon' => "success",
+			];
+		}else{
+			$ret = [
+				'title' => "Update",
+				'text' => "Update failed",
+				'icon' => "warning",
+			];
+		}
+		echo json_encode($ret);
+	}
+
+	public function edit_petugas($id)
+	{
+		$data = $this->Petugas_aplikasi_model->get_data_by_id($id);
+		echo json_encode($data);
 	}
 
 	public function delete_petugas()

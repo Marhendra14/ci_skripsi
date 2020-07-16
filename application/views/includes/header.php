@@ -32,11 +32,12 @@
       <a href="#" class="dropdown-item">
         <!-- Message Start -->
         <div class="media">
-          <img src="<?php echo base_url('assets/img/placeholder-user.png') ?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+          <img src="<?php echo base_url('assets/img/aqua.png') ?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
           <div class="media-body">
             <h3 class="dropdown-item-title">
               <?php echo $this->session->userdata('nama_karyawan') ?>
             </h3>
+            <p class="text-sm"> <b><?php echo $this->session->userdata('nik') ?></b></p>
           </div>
         </div>
         <!-- Message End -->

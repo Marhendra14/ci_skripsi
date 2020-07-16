@@ -7,34 +7,28 @@ class History_cup extends CI_Controller
 		public function __construct()
 		{
 			parent::__construct();
-			$this->load->model(['Logistik/History_cup_model']);
+			$this->load->model(['Superadmin/Petugas_aplikasi_model','Logistik/History_cup_model','Status_model']);
 		}
 
 		public function index()
 		{
-			$data = [
-				'title' => "Logistik",
+			$data = 
+			[
+				'title' => "History Cup",
 				'cname' => $this->cname,
 				'logistik' => "history_cup/index",
 				'data' => array(),
 			];
+			$data['data']['select_no_batch'] = $this->History_cup_model->distinct_no_batch();
 			$this->load->view('pages/logistik/layouts/dashboard', $data);
 			if ($this->session->userdata('isLogin') == FALSE) {
 				redirect('login','refresh');
 			}
 		}
 
-		public function get_data()
+		public function get_data($no_batch = '',$no_kantong = '')
 		{
-			$data['data'] = $this->History_cup_model->get_data();
+			$data['data'] = $this->History_cup_model->get_data($no_batch,$no_kantong);
 			echo json_encode($data);
 		}
-
-		public function get_data_by_id()
-		{
-			$id = $this->input->post('id_history_cup');
-			$data = $this->History_cup_model->get_data_by_id($id);
-			echo json_encode($data);
-		}
-
 	}

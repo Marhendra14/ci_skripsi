@@ -1,8 +1,8 @@
 <nav class="mt-2">
-<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
       <a href="<?php echo base_url('Area3/dashboard') ?>" class="nav-link">
-        <i class="nav-icon fas fa-tachometer-alt"></i>
+        <i class="nav-icon fas fa-desktop"></i>
         <p>
           Dashboard Admin Area 3
         </p>
@@ -10,7 +10,7 @@
     </li>
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-circle"></i>
+        <i class="nav-icon fas fa-shopping-bag"></i>
         <p>
           Data Kantong
           <i class="fas fa-angle-left right"></i>
@@ -24,8 +24,6 @@
             </p>
           </a>
         </li>
-      </ul>
-      <ul class="nav nav-treeview">
         <li class="nav-item">
           <a href="<?php echo base_url('Area3/no_kantong_belum_digunakan') ?>" class="nav-link">
             <p>
@@ -33,20 +31,18 @@
             </p>
           </a>
         </li>
-      </ul>
-      <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="<?php echo base_url('Area3/pembuatan_no_kantong') ?>" class="nav-link">
+          <a href="<?php echo base_url('Area3/laporan_produksi_cup') ?>" class="nav-link">
             <p>
-              X Laporan Produksi Cup
+              Laporan Produksi Cup
             </p>
           </a>
         </li>
       </ul>
     </li>
-        <li class="nav-item has-treeview">
+    <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-circle"></i>
+        <i class="nav-icon fas fa-cube"></i>
         <p>
           Data Produk
           <i class="fas fa-angle-left right"></i>
@@ -70,21 +66,22 @@
         <li class="nav-item">
           <a href="<?php echo base_url('Area3/data_produksi_dan_penjualan_produk') ?>" class="nav-link">
             <p>
-              X Data Produksi-Keluar Produk
+              Data Produksi-Keluar Produk
             </p>
           </a>
         </li>        
         <li class="nav-item">
-          <a href="<?php echo base_url('Area3/data_produksi_dan_penjualan_produk') ?>" class="nav-link">
+          <a href="<?php echo base_url('Area3/laporan_produksi_produk') ?>" class="nav-link">
             <p>
-              X Laporan Produksi Produk
+              Laporan Produksi Produk
             </p>
           </a>
         </li>
       </ul>
-          <li class="nav-item has-treeview">
+    </li>
+    <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-circle"></i>
+        <i class="nav-icon fas fa-truck-moving"></i>
         <p>
           Data Vendor
           <i class="fas fa-angle-left right"></i>
@@ -93,6 +90,7 @@
       <ul class="nav nav-treeview">        
         <li class="nav-item">
           <a href="<?php echo base_url('Area3/vendor') ?>" class="nav-link">
+            <i class="fas fa-truck-loading"></i>
             <p>
               Pembuatan Data Vendor
             </p>

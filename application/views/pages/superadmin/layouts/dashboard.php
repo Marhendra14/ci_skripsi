@@ -18,12 +18,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 		<!-- Main Sidebar Container -->
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
-			<!-- Brand Logo -->
-			<a href="#" class="brand-link">
-				<!-- <img src="<?php echo base_url('assets/img/logo-baru.png') ?>" alt="DP3A Logo" class="brand-image"
-				style="opacity: .8"> -->
-				<!-- <span class="brand-text font-weight-light">DP3A</span> -->
-			</a>
 
 			<!-- Sidebar -->
 			<div class="sidebar">
@@ -63,12 +57,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 		<!-- Main Footer -->
 		<footer class="main-footer">
-			<!-- To the right -->
-			<div class="float-right d-none d-sm-inline">
-				Anything you want
-			</div>
+			
 			<!-- Default to the left -->
-			<strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+			<strong>Copyright &copy; 2020 <a>PT. Tirta Investama (AQUA) Pandaan</a></strong>
 		</footer>
 	</div>
 	<!-- ./wrapper -->

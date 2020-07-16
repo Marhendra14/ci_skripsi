@@ -128,6 +128,3 @@ class Departemen extends CI_Controller {
 	}
 
 }
-
-/* End of file Departemen.php */
-/* Location: ./application/controllers/admin/Departemen.php */

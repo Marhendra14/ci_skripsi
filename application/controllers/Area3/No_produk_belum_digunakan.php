@@ -8,7 +8,7 @@ class No_produk_belum_digunakan extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Status_model']);
+		$this->load->model(['Superadmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Status_model']);
 	}
 
 	public function index()

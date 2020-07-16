@@ -127,6 +127,3 @@ class Status extends CI_Controller {
 	}
 
 }
-
-/* End of file Jabatan.php */
-/* Location: ./application/controllers/Admin/Jabatan.php */

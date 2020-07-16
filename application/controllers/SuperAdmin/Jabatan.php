@@ -26,6 +26,12 @@ class Jabatan extends CI_Controller {
 		}
 	}
 
+	public function get_grade($grade)
+	{
+		$data = $this->Jabatan_model->get_grade($grade)->result();
+		echo json_encode($data);
+	}
+
 	public function get_data()
 	{
 		$data['data'] = $this->Jabatan_model->get_data();
@@ -39,8 +45,15 @@ class Jabatan extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function edit_jabatan($id)
+	{
+		$data = $this->Jabatan_model->get_data_by_id($id);
+		echo json_encode($data);
+	}	
+
 	public function insert()
 	{
+		$this->form_validation->set_rules('grade','Grade','trim|required');
 		$this->form_validation->set_rules('nama_jabatan','Nama Jabatan','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
@@ -49,6 +62,7 @@ class Jabatan extends CI_Controller {
 			$id = $this->input->post('id_jabatan');
 
 			$data = [
+				'grade' => $this->input->post('grade'),
 				'nama_jabatan' => $this->input->post('nama_jabatan')
 			];
 
@@ -96,6 +110,31 @@ class Jabatan extends CI_Controller {
 
 	}
 
+	public function update()
+	{
+		$id = $this->input->post('id_jabatan');
+		$data = [
+			'grade' => $this->input->post('grade'),
+			'nama_jabatan' => $this->input->post('nama_jabatan')
+		];
+
+		$update = $this->Jabatan_model->update($id, $data);
+		if($update){
+			$ret = [
+				'title' => "Update",
+				'text' => "Update success",
+				'icon' => "success",
+			];
+		}else{
+			$ret = [
+				'title' => "Update",
+				'text' => "Update failed",
+				'icon' => "warning",
+			];
+		}
+		echo json_encode($ret);
+	}
+
 	public function delete_jabatan()
 	{
 		$id = $this->input->post('id_jabatan');
@@ -128,6 +167,3 @@ class Jabatan extends CI_Controller {
 	}
 
 }
-
-/* End of file Jabatan.php */
-/* Location: ./application/controllers/Admin/Jabatan.php */

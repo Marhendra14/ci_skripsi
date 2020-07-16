@@ -8,7 +8,7 @@ class Data_produksi_dan_penjualan_produk extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Area3/Vendor_model','Logistik/History_produk_model','Area3/Data_produksi_dan_penjualan_produk_model']);
+		$this->load->model(['Superadmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Area3/Vendor_model','Logistik/History_produk_model','Area3/Data_produksi_dan_penjualan_produk_model','Status_model']);
 	}
 
 	public function index()
@@ -22,11 +22,30 @@ class Data_produksi_dan_penjualan_produk extends CI_Controller {
 		];
 		$data['data']['select_petugas'] = $this->Petugas_aplikasi_model->get_data_area3();
 		$data['data']['select_vendor'] = $this->Vendor_model->get_data();
-		$data['data']['select_produk'] = $this->Pembuatan_no_produk_model->get_data();
+		$data['data']['select_status'] = $this->Status_model->get_data();
+		$data['data']['select_no_batch'] = $this->Data_produksi_dan_penjualan_produk_model->distinct_no_batch();
 		$this->load->view('pages/area3/layouts/dashboard', $data);
 		if ($this->session->userdata('isLogin') == FALSE) {
 			redirect('login','refresh');
 		}
+	}
+
+	public function get_no_batch($no_batch)
+	{
+		$data = $this->Data_produksi_dan_penjualan_produk_model->get_no_batch($no_batch)->result();
+		echo json_encode($data);
+	}
+
+	public function get_no_produk($no_produk)
+	{
+		$data = $this->Data_produksi_dan_penjualan_produk_model->get_no_produk($no_produk)->result();
+		echo json_encode($data);
+	}
+
+	public function get_vendor($id_vendor)
+	{
+		$data = $this->Data_produksi_dan_penjualan_produk_model->get_vendor($id_vendor)->result();
+		echo json_encode($data);
 	}
 
 	public function get_data()
@@ -45,7 +64,7 @@ class Data_produksi_dan_penjualan_produk extends CI_Controller {
 	public function insert()
 	{
 		$this->form_validation->set_rules('id_petugas','Nama Karyawan','trim|required');
-		$this->form_validation->set_rules('id_produk','No Batch','trim|required');
+		$this->form_validation->set_rules('no_batch','No Batch','trim|required');
 		$this->form_validation->set_rules('no_produk','No Produk','trim|required');
 		$this->form_validation->set_rules('jumlah_produk','jumlah_produk','trim|required');
 		$this->form_validation->set_rules('id_vendor','Nama vendor','trim|required');
@@ -61,25 +80,21 @@ class Data_produksi_dan_penjualan_produk extends CI_Controller {
 			$data = [
 				'id_petugas' => $this->input->post('id_petugas'),				
 				'no_batch' => $this->input->post('no_batch'),
-				'no_kantong' => $this->input->post('no_kantong'),
+				'id_produk' => $this->input->post('no_produk'),
 				'jumlah_produk' => $this->input->post('jumlah_produk'),
-				'no_batch' => $this->input->post('no_batch'),
+				'tanggal_pembuatan' => date("Y-m-d H:i:s"),
 				'id_vendor' => $this->input->post('id_vendor'),
 				'alamat_vendor' => $this->input->post('alamat_vendor'),
 				'no_telephone_vendor' => $this->input->post('no_telephone_vendor'),
 				'id_status' => $this->input->post('id_status')
-			];			
-			$data_history = [	
-				'waktu_pembuatan_no' => date("Y-m-d H:i:s"),							
-				'id_vendor' => $this->input->post('id_vendor'),
-				'alamat_vendor' => $this->input->post('alamat_vendor'),
-				'no_telephone_vendor' => $this->input->post('no_telephone_vendor'),
-				'jumlah_produk' => $this->input->post('jumlah_produk')
-			];		
+			];
+			$no_produk = $this->input->post('no_produk');
+			$no_batch = $this->input->post('no_batch');
+			$id_status = $this->input->post('id_status');
 			if ($id == "") {
 				$insert = $this->Data_produksi_dan_penjualan_produk_model->insert($data);
-				$insert2 = $this->History_produk_model->insert($data_history);
-				if($insert){
+				$update = $this->Data_produksi_dan_penjualan_produk_model->update_status($no_produk,$no_batch,$id_status,$jumlah_produk);
+				if($update){
 					$ret = [
 						'title' => "Insert",
 						'text' => "Insert success",
@@ -92,22 +107,6 @@ class Data_produksi_dan_penjualan_produk extends CI_Controller {
 						'icon' => "warning",
 					];
 				}   
-			}else {
-
-				$update = $this->Data_produksi_dan_penjualan_produk_model->update($id, $data);
-				if($update){
-					$ret = [
-						'title' => "Update",
-						'text' => "Update success",
-						'icon' => "success",
-					];
-				}else{
-					$ret = [
-						'title' => "Update",
-						'text' => "Update failed",
-						'icon' => "warning",
-					];
-				}
 			}
 		} else {
 			$ret = [

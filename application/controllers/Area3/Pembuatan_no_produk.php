@@ -8,13 +8,13 @@ class Pembuatan_no_produk extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['SuperAdmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Status_model','Logistik/History_produk_model']);
+		$this->load->model(['Superadmin/Petugas_aplikasi_model','Area3/Pembuatan_no_produk_model','Status_model']);
 	}
 
 	public function index()
 	{
 		$data = [
-			'title' => "Pembuatan Nomor Produk",
+			'title' => "Pembuatan Nomor produk",
 			'cname' => $this->cname,
 			'area3' => "pembuatan_no_produk/index",
 			'count_pembuatan_no_produk' => $this->Pembuatan_no_produk_model->count_pembuatan_no_produk(),
@@ -28,10 +28,16 @@ class Pembuatan_no_produk extends CI_Controller {
 		}
 	}
 
-	public function get_data()
+	public function get_data($no_batch = '',$no_produk = '')
 	{
-		$data['data'] = $this->Pembuatan_no_produk_model->get_data();
+		$data['data'] = $this->Pembuatan_no_produk_model->get_data($no_batch,$no_produk);
 		echo json_encode($data);
+	}
+
+	public function get_max_no_produk()
+	{
+		$data = $this->Pembuatan_no_produk_model->get_max();
+		echo json_encode($data);			
 	}
 
 	public function get_data_by_id()
@@ -41,61 +47,56 @@ class Pembuatan_no_produk extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function get_data_history()
+	{
+		$no_batch = ($this->input->post('no_batch') != '0' ? $this->input->post('no_batch') : null);
+		$no_produk = ($this->input->post('no_produk') != '0' ? $this->input->post('no_produk') : null);
+		$data['data'] = $this->Pembuatan_no_produk_model->get_data_history($no_batch,$no_produk);
+		echo json_encode($data);
+	}
+
 	public function insert()
 	{
 		$this->form_validation->set_rules('id_petugas','Nama Karyawan','trim|required');
 		$this->form_validation->set_rules('no_batch','No Batch','trim|required');
-		$this->form_validation->set_rules('no_produk','No Produk','trim|required');
-		$this->form_validation->set_rules('id_status','Status Produk','trim|required');
+		$this->form_validation->set_rules('no_produk','No produk','trim|required');
+		$this->form_validation->set_rules('id_status','Status produk','trim|required');
 		$this->form_validation->set_message('required',"{field} harus diisi");
 		$this->form_validation->set_error_delimiters('','');
 
 		if ($this->form_validation->run() == TRUE) {
-			$id = $this->input->post('id_produk');
+			$get_id = $this->Pembuatan_no_produk_model->get_next_id();
+			$id = $get_id[0]['auto_increment'];
+			$id_petugas = $this->input->post('id_petugas');
+			$no_batch = $this->input->post('no_batch');
+			$no_produk = $this->input->post('no_produk');
+			$jumlah_produk = $this->input->post('jumlah_produk');
+			$tanggal_pembuatan = date("Y-m-d H:i:s");
+			$id_status = $this->input->post('id_status');
 			
 			$data = [
-				'id_petugas' => $this->input->post('id_petugas'),
-				'no_batch' => $this->input->post('no_batch'),
-				'no_produk' => $this->input->post('no_produk'),
-				'id_status' => $this->input->post('id_status'),
-			];			
-			$data_history = [				
-				'id_produk' => $this->input->post('no_produk'),
-				'no_batch' => $this->input->post('no_batch'),
-				'waktu_pembuatan_no' => date("Y-m-d H:i:s")
+				'id_produk' => $id,
+				'id_petugas' => $id_petugas,
+				'no_batch' => $no_batch,
+				'no_produk' => $no_produk,
+				'jumlah_produk' => $jumlah_produk,
+				'tanggal_pembuatan' => date("Y-m-d H:i:s"),
+				'id_status' => $id_status
 			];
-			if ($id == "") {
-				$insert = $this->Pembuatan_no_produk_model->insert($data);
-				$insert2 = $this->History_produk_model->insert($data_history);
-				if($insert){
-					$ret = [
-						'title' => "Insert",
-						'text' => "Insert success",
-						'icon' => "success",
-					];
-				}else{
-					$ret = [
-						'title' => "Insert",
-						'text' => "Insert failed",
-						'icon' => "warning",
-					];
-				}   
-			}else {
+			$insert = $this->Pembuatan_no_produk_model->insert($data);
 
-				$update = $this->Pembuatan_no_produk_model->update($id, $data);
-				if($update){
-					$ret = [
-						'title' => "Update",
-						'text' => "Update success",
-						'icon' => "success",
-					];
-				}else{
-					$ret = [
-						'title' => "Update",
-						'text' => "Update failed",
-						'icon' => "warning",
-					];
-				}
+			if($insert){
+				$ret = [
+					'title' => "Insert",
+					'text' => "Insert success",
+					'icon' => "success",
+				];
+			}else{
+				$ret = [
+					'title' => "Insert",
+					'text' => "Insert failed",
+					'icon' => "warning",
+				];
 			}
 		} else {
 			$ret = [
@@ -128,7 +129,7 @@ class Pembuatan_no_produk extends CI_Controller {
 					'icon' => "warning",
 				];
 			}
-			
+
 		} else {
 			$ret = [
 				'text' => "Delete failed",

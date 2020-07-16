@@ -5,11 +5,12 @@ class Login_model extends CI_Model {
 
 	var $table = "petugas_aplikasi";
 	
-	public function getAdmin($nik,$password,$id_departemen)
+	public function getAdmin($nik,$password)
 	{
+		$this->db->select('*');
+		$this->db->from($this->table);
 		$this->db->where('nik', $nik);
 		$this->db->where('password', $password);
-		$this->db->where('id_departemen', $id_departemen);
 		$result = $this->db->get('petugas_aplikasi')->result();
 		return $result;
 		
